@@ -12,7 +12,7 @@ public class WordNet {
     /* these will not be modified througout work */
     private final Map<Integer,String> idToSynset = new HashMap<>();
     private final Map<String, Set<Integer>> nounToIds = new HashMap<>();
-    //private final SAP sap;
+    private final SAP sap;
 
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
@@ -20,7 +20,7 @@ public class WordNet {
         Digraph digraph = makeGraph(hypernyms);
         if(!isRightGraph(digraph))
             throw new IllegalArgumentException();
-        //sap = new SAP(digraph);
+        sap = new SAP(digraph);
     }
 
     public boolean isRightGraph(Digraph digraph){
@@ -93,7 +93,7 @@ public class WordNet {
             throw new IllegalArgumentException();
         Set<Integer> setOfIdsA = nounToIds.get(nounA);
         Set<Integer> setOfIdsB = nounToIds.get(nounB);
-        //return sap.length(setOfIdsA,setOfIdsB);
+        return sap.length(setOfIdsA,setOfIdsB);
     }
 
     // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
@@ -103,12 +103,12 @@ public class WordNet {
             throw new IllegalArgumentException();
         Set<Integer> setOfIdsA = nounToIds.get(nounA);
         Set<Integer> setOfIdsB = nounToIds.get(nounB);
-        //int commonAncestor =  sap.ancestor(setOfIdsA, setOfIdsB);
-        //return idToSynset.get(commonAncestor);
+        int commonAncestor =  sap.ancestor(setOfIdsA, setOfIdsB);
+        return idToSynset.get(commonAncestor);
     }
 
     // do unit testing of this class
     public static void main(String[] args) {
-        
+
     }
 }
